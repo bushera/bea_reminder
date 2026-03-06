@@ -1,4 +1,4 @@
-const reminderQueue = require("./queue");
+import { add } from "./queue";
 
 async function scheduleReminders(recordId, bookingTime, webhook, reminders) {
 
@@ -15,7 +15,7 @@ async function scheduleReminders(recordId, bookingTime, webhook, reminders) {
 
    if (delay > 0) {
 
-     await reminderQueue.add(
+     await add(
        "reminder",
        {
          recordId,
@@ -33,4 +33,4 @@ async function scheduleReminders(recordId, bookingTime, webhook, reminders) {
 
 }
 
-module.exports = scheduleReminders;
+export default scheduleReminders;

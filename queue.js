@@ -1,8 +1,8 @@
-const { Queue } = require("bullmq");
-const connection = require("./redis");
+import { Queue } from "bullmq";
+import connection from "./redis";
 
 const reminderQueue = new Queue("reminders", {
  connection
 });
 
-module.exports = reminderQueue;
+export default reminderQueue;

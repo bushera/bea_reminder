@@ -1,6 +1,6 @@
-const { Worker } = require("bullmq");
-const connection = require("./redis");
-const axios = require("axios");
+import { Worker } from "bullmq";
+import connection from "./redis";
+import { post } from "axios";
 
 new Worker(
  "reminders",
@@ -8,7 +8,7 @@ new Worker(
 
    const { recordId, webhook, hoursBefore } = job.data;
 
-   await axios.post(webhook, {
+   await post(webhook, {
      record_id: recordId,
      reminder: hoursBefore
    });

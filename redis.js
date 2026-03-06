@@ -1,5 +1,5 @@
-const IORedis = require("ioredis");
+import IORedis from "ioredis";
 
 const connection = new IORedis(process.env.REDIS_URL);
 
-module.exports = connection;
+export default connection;

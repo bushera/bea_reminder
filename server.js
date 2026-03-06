@@ -1,8 +1,8 @@
-const express = require("express");
-const scheduleReminders = require("./scheduler");
+import express, { json } from "express";
+import scheduleReminders from "./scheduler";
 
 const app = express();
-app.use(express.json());
+app.use(json());
 
 app.post("/create-booking", async (req, res) => {
 
