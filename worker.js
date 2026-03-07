@@ -1,5 +1,5 @@
 import { Worker } from "bullmq";
-import connection from "./redis";
+import connection from "./redis.js";
 import axios from "axios";
 
 console.log("Worker started...");
