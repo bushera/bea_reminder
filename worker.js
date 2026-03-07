@@ -2,6 +2,8 @@ import { Worker } from "bullmq";
 import connection from "./redis";
 import axios from "axios";
 
+console.log("Worker started...");
+
 new Worker(
  "reminders",
  async job => {
@@ -13,7 +15,7 @@ new Worker(
      reminder: hoursBefore
    });
 
-   console.log("Reminder sent");
+   console.log(`Reminder sent ${recordId} (${hoursBefore}h)`);
 
  },
  { connection }

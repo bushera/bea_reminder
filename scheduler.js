@@ -1,41 +1,81 @@
 import reminderQueue from "./queue.js";
 
+async function scheduleReminders(
+  recordId,
+  bookingTime,
+  webhook,
+  reminders,
+  status
+) {
 
-async function scheduleReminders(recordId, bookingTime, webhook, reminders) {
+  const booking = new Date(bookingTime);
+  const now = new Date();
 
- const booking = new Date(bookingTime);
- const now = new Date();
+  for (const hours of reminders) {
 
- for (const hours of reminders) {
+    const jobId = `${recordId}-${hours}h`;
 
-   const reminderTime = new Date(
-     booking.getTime() - hours * 60 * 60 * 1000
-   );
+    // Check if job already exists
+    const existingJob = await reminderQueue.getJob(jobId);
 
-   const delay = reminderTime - now;
+    // CANCEL → remove existing job
+    if (status === "cancel") {
 
-   if (delay > 0) {
+      if (existingJob) {
+        await existingJob.remove();
+        console.log(`Reminder removed: ${jobId}`);
+      }
 
-     await reminderQueue.add(
-       "reminder",
-       {
-         recordId,
-         webhook,
-         hoursBefore: hours
-       },
-       {
-         delay: delay,
-         jobId: `${recordId}-${hours}h`,
-         attempts: 5,
+      continue;
+    }
+
+    // RESCHEDULE → remove old job first
+    if (status === "reschedule") {
+
+      if (existingJob) {
+        await existingJob.remove();
+        console.log(`Old reminder removed: ${jobId}`);
+      }
+
+    }
+
+    // ACTIVE → skip if already exists
+    if (status === "active" && existingJob) {
+      console.log(`Reminder already exists: ${jobId}`);
+      continue;
+    }
+
+    const reminderTime = new Date(
+      booking.getTime() - hours * 60 * 60 * 1000
+    );
+
+    const delay = reminderTime - now;
+
+    if (delay > 0) {
+
+      await reminderQueue.add(
+        "reminder",
+        {
+          recordId,
+          webhook,
+          hoursBefore: hours
+        },
+        {
+          delay,
+          jobId,
+          attempts: 5,
           backoff: {
             type: "exponential",
             delay: 60000
           }
-       }
-     );
+        }
+      );
 
-   }
- }
+      console.log(`Reminder scheduled: ${jobId}`);
+
+    }
+
+  }
 
 }
 

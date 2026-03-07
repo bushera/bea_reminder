@@ -1,5 +1,5 @@
 import express, { json } from "express";
-import scheduleReminders from "./scheduler.js";
+import scheduleReminders from "./scheduler.js,";
 
 const app = express();
 app.use(json());
@@ -10,14 +10,16 @@ app.post("/create-booking", async (req, res) => {
    recordId,
    bookingTime,
    webhook,
-   reminders
+   reminders,
+   status
  } = req.body;
 
  await scheduleReminders(
    recordId,
    bookingTime,
    webhook,
-   reminders
+   reminders, 
+   status
  );
 
  res.send("Reminders scheduled");
