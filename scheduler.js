@@ -1,4 +1,5 @@
-import { add } from "./queue";
+import reminderQueue from "./queue.js";
+
 
 async function scheduleReminders(recordId, bookingTime, webhook, reminders) {
 
@@ -15,7 +16,7 @@ async function scheduleReminders(recordId, bookingTime, webhook, reminders) {
 
    if (delay > 0) {
 
-     await add(
+     await reminderQueue.add(
        "reminder",
        {
          recordId,

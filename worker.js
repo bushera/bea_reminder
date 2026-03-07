@@ -1,6 +1,6 @@
 import { Worker } from "bullmq";
 import connection from "./redis";
-import { post } from "axios";
+import axios from "axios";
 
 new Worker(
  "reminders",
@@ -8,7 +8,7 @@ new Worker(
 
    const { recordId, webhook, hoursBefore } = job.data;
 
-   await post(webhook, {
+   await axios.post(webhook, {
      record_id: recordId,
      reminder: hoursBefore
    });
