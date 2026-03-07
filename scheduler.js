@@ -24,7 +24,12 @@ async function scheduleReminders(recordId, bookingTime, webhook, reminders) {
        },
        {
          delay: delay,
-         jobId: `${recordId}-${hours}h`
+         jobId: `${recordId}-${hours}h`,
+         attempts: 5,
+          backoff: {
+            type: "exponential",
+            delay: 60000
+          }
        }
      );
 
