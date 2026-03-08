@@ -1,5 +1,5 @@
 import express, { json } from "express";
-import scheduleReminders from "./scheduler.js,";
+import scheduleReminders from "./scheduler.js";
 
 const app = express();
 app.use(json());
