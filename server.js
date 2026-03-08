@@ -22,10 +22,15 @@ app.post("/create-booking", async (req, res) => {
    status
  );
 
- res.send("Reminders scheduled");
-
 });
 
-app.listen(3000, () => {
- console.log("Server running");
+
+ app.get("/", (req,res)=>{
+ res.send("Reminders scheduled")
+});
+
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT, () => {
+ console.log(`Server running on port ${PORT}`)
 });
