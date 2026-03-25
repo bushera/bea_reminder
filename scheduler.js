@@ -9,7 +9,6 @@ async function scheduleReminders(
 ) {
 
   const booking = new Date(bookingTime);
-  const now = new Date();
 
   for (const hours of reminders) {
 
@@ -49,7 +48,7 @@ async function scheduleReminders(
       booking.getTime() - hours * 60 * 60 * 1000
     );
 
-    const delay = reminderTime - now;
+    const delay = reminderTime - new Date();
 
     if (delay > 0) {
 
@@ -73,6 +72,11 @@ async function scheduleReminders(
 
       console.log(`Reminder scheduled: ${jobId}`);
 
+    }
+
+    if (delay <= 0) {
+  console.log(`Skipped past reminder: ${jobId}`);
+  continue;
     }
 
   }

@@ -5,7 +5,7 @@ const app = express();
 app.use(json());
 
 app.post("/create-booking", async (req, res) => {
-
+ try {
  const {
    recordId,
    bookingTime,
@@ -21,6 +21,18 @@ app.post("/create-booking", async (req, res) => {
    reminders, 
    status
  );
+
+
+  res.json({
+      success: true,
+      message: "Reminders scheduled"
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
 
 });
 

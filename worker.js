@@ -1,13 +1,16 @@
-import { Worker } from "bullmq";
+import { Worker, QueueScheduler } from "bullmq";
 import connection from "./redis.js";
 import axios from "axios";
 
-console.log("Worker started...");
+new QueueScheduler("reminders", { connection });
 
-new Worker(
+console.log("Worker + Scheduler started...");
+
+
+const worker = new Worker(
  "reminders",
  async job => {
-
+      try {
    const { recordId, webhook, hoursBefore } = job.data;
 
    await axios.post(webhook, {
@@ -16,7 +19,21 @@ new Worker(
    });
 
    console.log(`Reminder sent ${recordId} (${hoursBefore}h)`);
-
+   
+  } catch (error) {
+      console.error(`Failed job ${job.id}:`, error.message);
+      throw error; // VERY IMPORTANT → enables retry
+  }
  },
  { connection }
 );
+
+
+
+worker.on("completed", job => {
+  console.log(`Job completed: ${job.id}`);
+});
+
+worker.on("failed", (job, err) => {
+  console.error(`Job failed: ${job.id}`, err.message);
+});
