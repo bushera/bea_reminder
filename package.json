@@ -8,6 +8,9 @@
     "start": "node server.js",
     "dev": "concurrently -n SERVER,WORKER \"node server.js\" \"node worker.js\""
   },
+  "engines": {
+  "node": ">=20"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -1,8 +1,7 @@
-import { Worker, QueueScheduler } from "bullmq";
+import { Worker } from "bullmq";
 import connection from "./redis.js";
 import axios from "axios";
 
-new QueueScheduler("reminders", { connection });
 
 console.log("Worker + Scheduler started...");
 
