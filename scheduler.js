@@ -57,7 +57,8 @@ async function scheduleReminders(
         {
           recordId,
           webhook,
-          hoursBefore: hours
+          hoursBefore: hours,
+          status
         },
         {
           delay,

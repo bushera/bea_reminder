@@ -10,11 +10,12 @@ const worker = new Worker(
  "reminders",
  async job => {
       try {
-   const { recordId, webhook, hoursBefore } = job.data;
+   const { recordId, webhook, hoursBefore, status } = job.data;
 
    await axios.post(webhook, {
      record_id: recordId,
-     reminder: hoursBefore
+     reminder: hoursBefore,
+     Status : status
    });
 
    console.log(`Reminder sent ${recordId} (${hoursBefore}h)`);
